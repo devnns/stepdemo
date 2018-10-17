@@ -49,6 +49,10 @@ public class AMapActivity extends AppCompatActivity {
         aMap.setMyLocationEnabled(false);
         aMap.setMyLocationStyle(getMyLocationStyle());//设置定位蓝点的Style
         aMap.moveCamera(CameraUpdateFactory.zoomTo(17));//数字越小，视野越大
+        LatLng curLocation=getIntent().getParcelableExtra("curLocation");
+        if(curLocation!=null){
+            aMap.moveCamera(CameraUpdateFactory.newLatLng(curLocation));
+        }
         //默认显示上海
 //        aMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(31.232159016927085, 121.49405734592014)));
         List<LatLng> points = getIntent().getParcelableArrayListExtra("trace");
@@ -65,7 +69,7 @@ public class AMapActivity extends AppCompatActivity {
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-//        myLocationStyle.showMyLocation(false);此方法有bug，无效，所以要添加一个透明的bitmap
+//        myLocationStyle.showMyLocation(true);//此方法有bug，无效，所以要添加一个透明的bitmap
 //        myLocationStyle.radiusFillColor(Color.TRANSPARENT);
 //        myLocationStyle.strokeColor(Color.TRANSPARENT);
         return myLocationStyle;

@@ -64,6 +64,8 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
     private ArrayList<LatLng> movementPoints = new ArrayList<>();
     private LatLng lastPreciseLatLng;//上一次正确定位的经纬度,用来计算再次定位的距离
 
+    private LatLng curLatLng;//实时坐标
+
     public StepPresenter(StepView stepView) {
         this.stepView = stepView;
     }
@@ -133,7 +135,7 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
 
     private void startLocationService() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
-        if (!EasyPermissions.hasPermissions(activity,permissions)) {
+        if (!EasyPermissions.hasPermissions(activity, permissions)) {
             EasyPermissions.requestPermissions(activity, "需要定位和存储权限用来记录运动轨迹", 1001, permissions);
         } else {
             Intent intent = new Intent(activity, LocationService.class);
@@ -158,11 +160,13 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
     public void showMoveTrace() {
         Intent intent = new Intent(activity, AMapActivity.class);
         intent.putParcelableArrayListExtra("trace", movementPoints);
+        intent.putExtra("curLocation", curLatLng);
         activity.startActivity(intent);
     }
 
     /**
      * 是否带有计步协处理器
+     *
      * @return
      */
     private boolean isStepCounter() {
@@ -244,15 +248,17 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
 
         Log.i(TAG, "onLocationUpdate:" + mapLocation.getLatitude() + "," + mapLocation.getLongitude());
 
-        LatLng latLng = new LatLng(mapLocation.getLatitude(), mapLocation.getLongitude());
+        curLatLng = new LatLng(mapLocation.getLatitude(), mapLocation.getLongitude());
+
+//        curLocation = latLng;
 
         float distance = 0;
 
         if (lastPreciseLatLng != null) {
-            distance = AMapUtils.calculateLineDistance(lastPreciseLatLng, latLng);
+            distance = AMapUtils.calculateLineDistance(lastPreciseLatLng, curLatLng);
         }
 
-        String desc = String.format("%s,[%s]类型[%s]海拨[%s]精度[%s]距离[%s]速度[%s]", mapLocation.getAddress(), timeFormat.format(mapLocation.getTime()), mapLocation.getLocationType(), mapLocation.getAltitude(), mapLocation.getAccuracy(), distance,mapLocation.getSpeed());
+        String desc = String.format("%s,[%s]类型[%s]海拨[%s]精度[%s]距离[%s]速度[%s]", mapLocation.getAddress(), timeFormat.format(mapLocation.getTime()), mapLocation.getLocationType(), mapLocation.getAltitude(), mapLocation.getAccuracy(), distance, mapLocation.getSpeed());
 
         stepView.setCurLocation(desc);
 
@@ -261,12 +267,12 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
             return;
         }
         if (lastPreciseLatLng == null) {
-            lastPreciseLatLng = latLng;//假定第一次精度在10米以内的定位为起点
-            movementPoints.add(latLng);
+            lastPreciseLatLng = curLatLng;//假定第一次精度在10米以内的定位为起点
+            movementPoints.add(curLatLng);
         } else if (distance >= 1f && distance <= 3.2f) {
             detectTime = 0;
-            movementPoints.add(latLng);
-            lastPreciseLatLng = latLng;
+            movementPoints.add(curLatLng);
+            lastPreciseLatLng = curLatLng;
         } else if (distance > 3.2f) {
             detectTime++;
             Log.i(TAG, "检测到躁点,距离:" + distance);
@@ -274,7 +280,7 @@ public class StepPresenter extends BasePresenter implements Handler.Callback, Ea
         if (detectTime > 4) {
             Log.i(TAG, "连续5次检测到躁点,距离:" + distance);
             detectTime = 0;
-            lastPreciseLatLng = latLng;//将最后一次运动的位置假定为正常位置
+            lastPreciseLatLng = curLatLng;//将最后一次运动的位置假定为正常位置
         }
     }
 

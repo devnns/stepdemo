@@ -4,32 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".MainActivity">
 
-    <RadioGroup
-        android:id="@+id/sensor_choice_group"
+    <TextView
+        android:id="@+id/sensor_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RadioButton
-            android:id="@+id/sensor_choice_step"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="计步传感器" />
-
-        <RadioButton
-            android:id="@+id/sensor_choice_accelerator"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="加速度传感器" />
-    </RadioGroup>
+        android:text="本设备支持计步传感器和加速度传感器" />
 
     <TextView
         android:id="@+id/sensor_status"
@@ -59,7 +41,7 @@
         android:layout_margin="10dp"
         android:onClick="onOffSwitch"
         android:text="开始计步"
-        app:layout_constraintTop_toBottomOf="@id/sensor_choice_group" />
+        app:layout_constraintTop_toBottomOf="@+id/sensor_info" />
 
     <Button
         android:id="@+id/autoLuanch"

@@ -17,6 +17,15 @@ import com.devnn.step.view.StepView;
 
 import presenter.StepPresenter;
 
+/**
+ * Android计步有两种方式：
+ * 一种使用计步传感器(也叫计步协处理器,低端手机没有),可直接获取步数
+ * 另一种是使用加速度传感器(一般手机都有),需要借助算法取运动波形中的波峰。
+ * 本demo优先使用计步传感器,没有计步传感器就使用加速度传感器Sensor.TYPE_ACCELEROMETER。
+ * 计步传感器有两种，分别是Sensor.TYPE_STEP_COUNTER和Sensor.TYPE_STEP_DETECTOR
+ * 前者是系统级别的步数,可以监听数量，后者是监听行走这个动作，没有步数。
+ * 本demo使用到的两种传感器：Sensor.TYPE_STEP_COUNTER、Sensor.TYPE_ACCELEROMETER
+ */
 public class MainActivity extends AppCompatActivity implements StepView {
     private String TAG = this.getClass().getSimpleName();
     private TextView tvTodayStep, tvTodayCalories, tvTodayKilometer;//今日步数、卡路里、公里
@@ -58,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements StepView {
 
     /**
      * 开启进程保护设置
+     *
      * @param view
      */
     public void processProtect(View view) {
@@ -66,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements StepView {
 
     /**
      * 防睡眠设置
+     *
      * @param view
      */
     public void batteryProtect(View view) {
@@ -74,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements StepView {
 
     /**
      * 显示运动轨迹
+     *
      * @param view
      */
     public void moveTrace(View view) {
@@ -82,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements StepView {
 
     /**
      * 开关计步
+     *
      * @param view
      */
     public void onOffSwitch(View view) {
