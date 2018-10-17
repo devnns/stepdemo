@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RadioGroup
+        android:id="@+id/sensor_choice_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/sensor_choice_step"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="计步传感器" />
+
+        <RadioButton
+            android:id="@+id/sensor_choice_accelerator"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="加速度传感器" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/sensor_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="---"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/cur_location"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/cur_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="---"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <Button
+        android:id="@+id/sensor_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="onOffSwitch"
+        android:text="开始计步"
+        app:layout_constraintTop_toBottomOf="@id/sensor_choice_group" />
+
+    <Button
+        android:id="@+id/autoLuanch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="processProtect"
+        android:text="后台保护设置"
+        app:layout_constraintTop_toBottomOf="@id/sensor_switch" />
+
+    <Button
+        android:id="@+id/autoProtect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="batteryProtect"
+        android:text="防睡眠设置"
+        app:layout_constraintTop_toBottomOf="@id/autoLuanch" />
+
+    <Button
+        android:id="@+id/locationDemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="moveTrace"
+        android:text="运动轨迹"
+        app:layout_constraintTop_toBottomOf="@id/autoProtect" />
+
+    <TextView
+        android:id="@+id/step_today_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="今日步数:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/calories_today_text"
+        app:layout_constraintTop_toBottomOf="@+id/locationDemo" />
+
+    <TextView
+        android:id="@+id/calories_today_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="卡路里:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/step_today_text"
+        app:layout_constraintRight_toLeftOf="@+id/distance_today_text"
+        app:layout_constraintTop_toBottomOf="@+id/locationDemo" />
+
+    <TextView
+        android:id="@+id/distance_today_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="里程:0.0km"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/calories_today_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationDemo" />
+
+    <TextView
+        android:id="@+id/step_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="昨日步数:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/calories_yesterday_text"
+        app:layout_constraintTop_toBottomOf="@+id/step_today_text" />
+
+
+    <TextView
+        android:id="@+id/calories_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="卡路里:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/step_yesterday_text"
+        app:layout_constraintRight_toLeftOf="@+id/distance_yesterday_text"
+        app:layout_constraintTop_toBottomOf="@+id/step_today_text" />
+
+    <TextView
+        android:id="@+id/distance_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="里程:0.0km"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/calories_yesterday_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_today_text" />
+
+    <TextView
+        android:id="@+id/step_before_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="前日步数:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/calories_yesterday_text"
+        app:layout_constraintTop_toBottomOf="@+id/step_yesterday_text" />
+
+
+    <TextView
+        android:id="@+id/calories_before_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="卡路里:0"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/step_yesterday_text"
+        app:layout_constraintRight_toLeftOf="@+id/distance_yesterday_text"
+        app:layout_constraintTop_toBottomOf="@+id/step_yesterday_text" />
+
+    <TextView
+        android:id="@+id/distance_before_yesterday_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="里程:0.0km"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/calories_before_yesterday_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_yesterday_text" />
+
+
+</android.support.constraint.ConstraintLayout>
