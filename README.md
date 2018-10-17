@@ -1,2 +1,3 @@
 # stepdemo
-Android step demo for calculate walk step per day
+Use mvp architecture
+Use Realm to store data
