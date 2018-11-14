@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements StepView {
 
         tvStatus = findViewById(R.id.sensor_status);
         tvLocation = findViewById(R.id.cur_location);
-        radioButton1 = findViewById(R.id.sensor_choice_step);
-        radioButton2 = findViewById(R.id.sensor_choice_accelerator);
+//        radioButton1 = findViewById(R.id.sensor_choice_step);
+//        radioButton2 = findViewById(R.id.sensor_choice_accelerator);
         btnSwitch = findViewById(R.id.sensor_switch);
         getLifecycle().addObserver(stepPresenter);
     }
